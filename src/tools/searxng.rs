@@ -12,6 +12,9 @@ use crate::tools::errors::EngineError;
 type LinkMap = HashMap<String, String>;
 type OptionalURLs = Vec<Option<String>>;
 
+const CLIENT_CONN_POOL_SIZE: usize = 5;
+const CLIENT_CONN_TIMEOUT: u64 = 10;
+
 
 pub trait HtmlParser {
     type E; // The error
@@ -36,7 +39,11 @@ impl MetaSearchEngine {
     pub fn new(host: &str) -> Self {
         Self{
             host: host.to_string(),
-            client: Client::new(),
+            client: Client::builder()
+                .pool_max_idle_per_host(CLIENT_CONN_POOL_SIZE) // Maximum idle connections per host
+                .timeout(std::time::Duration::from_secs(CLIENT_CONN_TIMEOUT)) // Set a timeout
+                .build()
+                .unwrap(),
         }
     }
 }

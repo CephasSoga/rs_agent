@@ -11,7 +11,8 @@ use scraper::html;
 use serde_json::Value;
 use serde::{de, Deserialize, Serialize};
 use regex::Regex;
-use tokio::{spawn, sync::Mutex, task::JoinHandle};
+use tokio::{spawn, task::JoinHandle};
+use tokio::sync::{Semaphore, Mutex};
 use tracing::{debug, error, info, warn};
 use tracing_subscriber::field::debug;
 
@@ -135,7 +136,7 @@ pub trait ExhautNodes {
 
 
 pub struct DeepSearchEngine {
-    engine: MetaSearchEngine,
+    engine: Arc<MetaSearchEngine>,
     embedding_model: Option<Arc<Word2VecFromFile>>,
     pub explored: Arc<DashSet<String>>
 }
@@ -143,7 +144,7 @@ pub struct DeepSearchEngine {
 impl DeepSearchEngine {
     pub fn new(host: &str) -> Self {
         Self {
-            engine: MetaSearchEngine::new(host),
+            engine: Arc::new(MetaSearchEngine::new(host)),
             embedding_model: None,
             explored: Arc::new(DashSet::new())
         
@@ -362,22 +363,31 @@ impl ExhautNodes for DeepSearchEngine {
             depth,
         }));
         let q_embed = self.embed(query, EMBEDDING_PAD_LEN);
-        let tasks: Vec<_> = nodes.into_iter()
-            .map(|root| {
-                let mut not_shared_self = self.clone();
-                let res = result.clone();
-                let q = q_embed.clone();
-                let mut explored = Arc::clone(&self.explored);
-                spawn(async move {
-                    debug!("Spawned a new task for a node.");
-                    not_shared_self.explore_node(&q, root, depth, res, explored).await;
-                })
-        })
-        .collect();
-        for task in tasks {
-            task.await;
+        let semaphore = Arc::new(Semaphore::new(10)); // Limit to 10 concurrent tasks
+        let mut tasks = vec![];
+    
+        for root in nodes {
+            let permit = semaphore.clone().acquire_owned().await.unwrap(); // Acquire a permit
+            let mut not_shared_self = self.clone();
+            let res = result.clone();
+            let q = q_embed.clone();
+            let explored = Arc::clone(&self.explored);
+    
+            let task = tokio::spawn(async move {
+                debug!("Spawned a new task for a node.");
+                let _ = not_shared_self.explore_node(&q, root, depth, res, explored).await;
+                drop(permit); // Release the permit when the task is done
+            });
+    
+            tasks.push(task);
         }
-        let unwrapped_result =Arc::try_unwrap(result)
+    
+        // Wait for all tasks to complete
+        for task in tasks {
+            let _ = task.await;
+        }
+    
+        let unwrapped_result = Arc::try_unwrap(result)
             .map_err(|err| EngineError::SearchTreeUnwrapError(String::from("Failed to unwrap result")))?
             .into_inner();
 
