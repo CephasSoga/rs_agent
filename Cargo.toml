@@ -18,3 +18,4 @@ rayon = "1.10.0"        # Parallel execution library for Rust
 indicatif = "0.17"      # Progress bar library for Rust
 num_cpus = "1.16"       # For getting number of CPU cores
 fastrand = "2.0"        # Fast random number generator
+dashmap = "6.1.0"

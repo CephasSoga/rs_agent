@@ -4,7 +4,9 @@ use std::fmt::Debug;
 use std::os::raw;
 use std::sync::Arc;
 use std::cmp::Ordering;
+use std::collections::HashSet;
 
+use dashmap::DashSet;
 use scraper::html;
 use serde_json::Value;
 use serde::{de, Deserialize, Serialize};
@@ -104,6 +106,10 @@ pub struct SearchTree {
     pub depth: u32,
 }
 
+pub trait HtmlOps {
+    fn filter_valid_links(potential_links: &[String]) -> Vec<String>;
+}
+
 pub trait Word2VecInitializer {
     fn initialize(&self, model_path: Option<&str>) -> Word2VecFromFile;
 }
@@ -118,11 +124,12 @@ pub trait Word2VecEmbedding {
 pub trait ExhautNodes {
     type E; // The error type
     type R; // The embedding result
+    type ArcEx; // Keeps trcak of explored links
     async fn fetch_roots(&self, query: &str) -> Result<Vec<TreeNode<Node>>, Self::E>;
     async fn fetch_children(&self, q_embed: &Self::R, parent: &mut TreeNode<Node>, depth: u32) -> Result<Vec<TreeNode<Node>>, Self::E>;
     async fn wrap_response(&self, q_emb: &Self::R, html: &str) -> HtmlWrap;
-    async fn explore(&self, query: &str, nodes: Vec<TreeNode<Node>>, depth: u32) -> Result<SearchTree, EngineError>;
-    async fn explore_node(&self, q_emb: &Self::R, node: TreeNode<Node>, max_depth: u32, result: Arc<Mutex<SearchTree>>);
+    async fn explore(&mut self, query: &str, nodes: Vec<TreeNode<Node>>, depth: u32) -> Result<SearchTree, EngineError>;
+    async fn explore_node(&self, q_emb: &Option<Vec<f32>>, tree: TreeNode<Node>, depth: u32, result: Arc<Mutex<SearchTree>>, explored: Self::ArcEx);
     async fn score_link(&self, q_emb: &Self::R, link: &str) -> Result<f64, Self::E>;
 }
 
@@ -130,20 +137,23 @@ pub trait ExhautNodes {
 pub struct DeepSearchEngine {
     engine: MetaSearchEngine,
     embedding_model: Option<Arc<Word2VecFromFile>>,
+    explored: Arc<DashSet<String>>
 }
 
 impl DeepSearchEngine {
     pub fn new(host: &str) -> Self {
         Self {
             engine: MetaSearchEngine::new(host),
-            embedding_model: None 
+            embedding_model: None,
+            explored: Arc::new(DashSet::new())
+        
         }
     }
     fn clone(&self) -> Self {
         Self {
             engine: self.engine.clone(),
-            embedding_model: self.embedding_model.clone()
-        
+            embedding_model: self.embedding_model.clone(),
+            explored: self.explored.clone()
         }
     }
     pub fn pretty_save_to_file(&self, filename: &str, tree: &SearchTree) -> Result<(), std::io::Error> {
@@ -168,6 +178,23 @@ impl DeepSearchEngine {
     }
 }
 
+impl HtmlOps for DeepSearchEngine {
+    fn filter_valid_links(potential_links: &[String]) -> Vec<String> {
+        info!("Filtering found links...");
+        let url_regex = Regex::new(r#"(?i)\b(?:https?://|www\.)\S+\b"#).unwrap();
+        
+        potential_links
+            .iter()
+            .filter_map(|link| {
+                url_regex
+                    .find(link)
+                    .map(|m| m.as_str().to_string())
+            })
+            .inspect(|link| debug!("Valid link found: {:?}", link))
+            .collect()
+    }    
+}
+
 impl Word2VecInitializer for DeepSearchEngine {
     fn initialize(&self, model_path: Option<&str>) -> Word2VecFromFile {
         Word2VecFromFile::new(model_path.unwrap_or("models/multi_thread_model.json")).unwrap()
@@ -182,7 +209,7 @@ impl Word2VecEmbedding for DeepSearchEngine {
     }
 
     fn pad(&self, text: &str, tokens_count: usize) -> String {
-        info!("Padding text: {}", text);
+        debug!("Padding text: {}", text);
         let words: Vec<&str> = text.split_whitespace().collect();
         let margin = tokens_count as isize - words.len() as isize;
         if margin <= 0 {
@@ -197,8 +224,8 @@ impl Word2VecEmbedding for DeepSearchEngine {
         if let Some(a) = a {
             if let Some(b) = b {
                 if a.len() != b.len() {
-                    error!("Vectors must be of the same length!");
-                    
+                    error!("Vectors must be of the same length! Retruned 0.");
+                    return 0_f64;
                 }
             
                 let dot_product: f32 = a.iter().zip(b.iter()).map(|(x, y)| x * y).sum();
@@ -220,6 +247,7 @@ impl Word2VecEmbedding for DeepSearchEngine {
 impl ExhautNodes for DeepSearchEngine {
     type E = EngineError;
     type R = Option<Vec<f32>>;
+    type ArcEx = Arc<DashSet<String>>;
     async fn fetch_roots(&self, query: &str) -> Result<Vec<TreeNode<Node>>, Self::E> {
         info!("Fetching roots for query: {}.", query);
         let mut roots: Vec<TreeNode<Node>>= Vec::new();
@@ -245,15 +273,20 @@ impl ExhautNodes for DeepSearchEngine {
             return Ok(Vec::new());
         }
 
-        info!("Fetching children for node: {:?}", parent);
+        info!("Fetching children for node. | Url: {:?}", parent.node.url);
 
         match self.engine.request(&parent.node.url, Some("html")).await {
             Ok(response) => {
                 debug!("Fetched HTML for URL: <{}>.", &parent.node.url);
+                
                 if let Ok(text) = response.text().await {
+                    
                     let html_wrap = self.wrap_response(q_emb,&text).await;
-                    info!("Wrapping HTML for URL: <{:#?}>.", &html_wrap);
+                    debug!("Wrapped HTML for URL: <{:#?}>.", &html_wrap);
+                    
                     parent.node.extracted = Some(html_wrap.clone());
+                    let score = self.score_link(q_emb, &parent.node.url).await?;
+                    parent.node.update(score);
 
                     let child_nodes: Vec<TreeNode<Node>> = html_wrap.links.iter().map(|url| {
                         TreeNode::new(Node {
@@ -279,6 +312,7 @@ impl ExhautNodes for DeepSearchEngine {
     }
     
     async fn wrap_response(&self, q_emb: &Option<Vec<f32>>, html: &str) -> HtmlWrap {
+        debug!("Wrapping HTML: <{}>.", html);
         let mut html_wrap = HtmlWrap::default();
         let selectors = vec![
             ("h1", &mut html_wrap.h1),
@@ -295,6 +329,9 @@ impl ExhautNodes for DeepSearchEngine {
             *target = self.engine.extract(html, field).await;
         }
 
+        // filter valid links
+        html_wrap.links = Self::filter_valid_links(&html_wrap.links);
+
         // Collect scores first
         let mut scored_links = Vec::new();
         for link in html_wrap.links.iter() {
@@ -310,7 +347,8 @@ impl ExhautNodes for DeepSearchEngine {
         html_wrap
     }
 
-    async fn explore(&self, query: &str,  nodes: Vec<TreeNode<Node>>, depth: u32) -> Result<SearchTree, EngineError> {
+    async fn explore(&mut self, query: &str,  nodes: Vec<TreeNode<Node>>, depth: u32) -> Result<SearchTree, EngineError> {
+        info!("Engine started exploring...");
         let mut result = Arc::new(Mutex::new(SearchTree {
             levels: Vec::new(),
             query: query.to_string(),
@@ -319,11 +357,13 @@ impl ExhautNodes for DeepSearchEngine {
         let q_embed = self.embed(query, EMBEDDING_PAD_LEN);
         let tasks: Vec<_> = nodes.into_iter()
             .map(|root| {
-                let not_shared_self = self.clone();
+                let mut not_shared_self = self.clone();
                 let res = result.clone();
                 let q = q_embed.clone();
+                let mut explored = Arc::clone(&self.explored);
                 spawn(async move {
-                    not_shared_self.explore_node(&q, root, depth, res).await;
+                    debug!("Spawned a new task for a node.");
+                    not_shared_self.explore_node(&q, root, depth, res, explored).await;
                 })
         })
         .collect();
@@ -337,9 +377,15 @@ impl ExhautNodes for DeepSearchEngine {
         Ok(unwrapped_result)
     }
 
-    async fn explore_node(&self, q_emb: &Option<Vec<f32>>, node: TreeNode<Node>, depth: u32, result: Arc<Mutex<SearchTree>>) {
+    async fn explore_node(&self, q_emb: &Option<Vec<f32>>, tree: TreeNode<Node>, depth: u32, result: Arc<Mutex<SearchTree>>, explored: Self::ArcEx) {
+        let curr_link = tree.clone().node.url;
+        if explored.contains(&curr_link) {
+            info!("Link already explored: {}. Skipped" , &curr_link);
+            return;
+        }
+        info!("Exploring node. | Node:{}. | Depth: {}.", &curr_link, &depth);
         let mut level_counter = 0;
-        let mut current_nodes = vec![node];
+        let mut current_nodes = vec![tree];
 
         while level_counter < depth {
             let mut next_nodes = vec![];
@@ -352,6 +398,8 @@ impl ExhautNodes for DeepSearchEngine {
             level_counter += 1;
             current_nodes = next_nodes;
         }
+
+        explored.insert(curr_link);
     }
 
     async fn score_link(&self, q_emb: &Option<Vec<f32>>, link: &str) -> Result<f64, Self::E> {
