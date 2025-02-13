@@ -1,5 +1,1074 @@
 {
-  "levels": [],
+  "levels": [
+    {
+      "level": 0,
+      "links": [
+        {
+          "node": {
+            "depth_index": 0,
+            "url": "https://www.lowyinstitute.org/the-interpreter/four-key-influences-evolution-ukraine-war-2025",
+            "relevance": 1.0,
+            "explored": false,
+            "extracted": {
+              "title": [
+                "searxng"
+              ],
+              "h1": [],
+              "h2": [],
+              "h3": [
+                "Four key influences on the evolution of the Ukraine War in ...",
+                "Search Results",
+                "Search Results",
+                "Articles",
+                "The Lowy Institute (@LowyInstitute) on X",
+                "Interpreter",
+                "Search Results",
+                "Mick Ryan, AM - X",
+                "Mick Ryan",
+                "Articles"
+              ],
+              "h4": [],
+              "h5": [],
+              "h6": [],
+              "text": [
+                "\n    5 juil. 2024 — Ukraine and Russia will already be planning their 2024 winter operations and contemplating their offensive operations for 2025.\n  ",
+                "\n    Four key influences on the evolution of the Ukraine War in 2025. Ukraine, Russia and NATO are already considering their strategy for the military campaigns ...\n  ",
+                "\n    Four key influences on the evolution of the Ukraine War in 2025. Ukraine, Russia and NATO are already considering their strategy for the military campaigns ...\n  ",
+                "\n    Four key influences on the evolution of the. Ukraine War in 2025 · Mick Ryan. Ukraine, Russia and NATO are already considering their strategy for the military ...\n  ",
+                "\n    Ukraine, Russia and @NATO are already considering their strategy for the military campaigns of 2025, writes the @LowyInstitute's ...\n  ",
+                "\n    Four key influences on the evolution of the Ukraine War in 2025. Ukraine, Russia and NATO are already considering their strategy for the military campaigns ...\n  ",
+                "\n    Four key influences on the evolution of the Ukraine War in 2025. Ukraine, Russia and NATO are already considering their strategy for the military campaigns ...\n  ",
+                "\n    5 juil. 2024 — @LowyInstitute. Interpreter. End. Four key influences on the evolution of the Ukraine War in 2025 · From lowyinstitute.org · 3:36 AM · Jul 5, ...\n  ",
+                "\n    Four key influences on the evolution of the. Ukraine War in 2025. Ukraine, Russia and NATO are already considering their strategy for the military campaigns of ...\n  ",
+                "\n    Four key influences on the evolution of the. Ukraine War in 2025 · Mick Ryan. Ukraine, Russia and NATO are already considering their strategy for the military ...\n  ",
+                "\n    Powered by  searxng  - 2025.1.6+6dab7fe78 — a privacy-respecting, open metasearch engine \n         Source code \n        |  Issue tracker \n|  Engine stats         |  Public instances \n    "
+              ],
+              "links": [
+                "https://web.archive.org/web/https://x.com/WarintheFuture/status/1809068791986524508",
+                "https://searx.space",
+                "https://web.archive.org/web/https://www.lowyinstitute.org/the-interpreter/archive?issue=204&page=0",
+                "/",
+                "/stats?engine=google"
+              ]
+            }
+          },
+          "children": [
+            {
+              "node": {
+                "depth_index": 1,
+                "url": "https://web.archive.org/web/https://x.com/WarintheFuture/status/1809068791986524508",
+                "relevance": 1.0,
+                "explored": false,
+                "extracted": null
+              },
+              "children": []
+            },
+            {
+              "node": {
+                "depth_index": 1,
+                "url": "https://searx.space",
+                "relevance": 1.0,
+                "explored": false,
+                "extracted": null
+              },
+              "children": []
+            },
+            {
+              "node": {
+                "depth_index": 1,
+                "url": "https://web.archive.org/web/https://www.lowyinstitute.org/the-interpreter/archive?issue=204&page=0",
+                "relevance": 1.0,
+                "explored": false,
+                "extracted": null
+              },
+              "children": []
+            },
+            {
+              "node": {
+                "depth_index": 1,
+                "url": "/",
+                "relevance": 1.0,
+                "explored": false,
+                "extracted": null
+              },
+              "children": []
+            },
+            {
+              "node": {
+                "depth_index": 1,
+                "url": "/stats?engine=google",
+                "relevance": 1.0,
+                "explored": false,
+                "extracted": null
+              },
+              "children": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "level": 0,
+      "links": [
+        {
+          "node": {
+            "depth_index": 0,
+            "url": "https://www.bbc.com/news/world-europe-60506682",
+            "relevance": 1.0,
+            "explored": false,
+            "extracted": {
+              "title": [
+                "searxng"
+              ],
+              "h1": [],
+              "h2": [],
+              "h3": [
+                "Ukraine in maps: Tracking the war with Russia",
+                "Ukraine in maps: Tracking the war with Russia",
+                "analysis of us-nato entanglement in russo-ukrainian conflict ...",
+                "Europe | Latest News & Updates",
+                "Analysis of Ukraine's Rejection of the Russian-Ukrainian ...",
+                "A Mutual-Grand Strategy Modeling of the Russia-Ukraine ...",
+                "Areas of Russian military control in Ukraine (https://www. ...",
+                "Commentary & Analysis",
+                "RLT-about-the-Russia-Ukraine-War-2022.docx"
+              ],
+              "h4": [],
+              "h5": [],
+              "h6": [],
+              "text": [
+                "\n    19 nov. 2024 — As Russian forces make slow progress in eastern Ukraine, Ukraine's military stages a surprise cross-border attack.\n  ",
+                "\n    19 nov. 2024 — A map showing how Russian forces have crossed the border in the north-east of Ukraine and have consolidated their hold on territory to the north of Kharkiv.\n  ",
+                "\n    de S Maulidina · Cité 1 fois — The Ukraine-Russia conflict is a complex one. Some countries intend to defend national interests regarding border areas, energy sources, and international trade ...\n  ",
+                "\n    Europe · Ukraine war talks start now, Trump says after Putin call · Austria's political crisis deepens as far right fails to form government · Hegseth sets out ...\n  ",
+                "\n    Purpose: This study aims to explore the factors behind Ukraine's rejection of the peace proposal suggested by Indonesian Defence Minister Prabowo Subianto ...\n  ",
+                "\n    de M Ariba · Cité 1 fois — Abstract. In this research paper, we seek to strategize the Russian-Ukrainian War 2022 based on a game theory and hypergame theory perspective.\n  ",
+                "\n    Areas of Russian military control in Ukraine (https://www.bbc.com/news/ world-europe-60506682). Source publication. Figure 1. Areas of Russian military control ...\n  ",
+                "\n    ISW (2022), “Areas of Russian military control in Ukraine,” Institute for the Study of War, November 2022,  https://www.bbc.com/news/world-europe-60506682 .\n  ",
+                "\n    Ukraine Maps, from the BBC  https://www.bbc.com/news/world-europe-60506682  ... world-war-i-in-germany-and-russia/\n  ",
+                "\n    Powered by  searxng  - 2025.1.6+6dab7fe78 — a privacy-respecting, open metasearch engine \n         Source code \n        |  Issue tracker \n|  Engine stats         |  Public instances \n    "
+              ],
+              "links": [
+                "https://web.archive.org/web/https://dergipark.org.tr/en/pub/ijps/article/1174300",
+                "https://searx.space",
+                "/",
+                "https://geni.indianapolis.iu.edu/wp-content/uploads/2022/03/RLT-about-the-Russia-Ukraine-War-2022.docx",
+                "https://geni.indianapolis.iu.edu/wp-content/uploads/2022/03/RLT-about-the-Russia-Ukraine-War-2022.docx"
+              ]
+            }
+          },
+          "children": [
+            {
+              "node": {
+                "depth_index": 1,
+                "url": "https://web.archive.org/web/https://dergipark.org.tr/en/pub/ijps/article/1174300",
+                "relevance": 1.0,
+                "explored": false,
+                "extracted": null
+              },
+              "children": []
+            },
+            {
+              "node": {
+                "depth_index": 1,
+                "url": "https://searx.space",
+                "relevance": 1.0,
+                "explored": false,
+                "extracted": null
+              },
+              "children": []
+            },
+            {
+              "node": {
+                "depth_index": 1,
+                "url": "/",
+                "relevance": 1.0,
+                "explored": false,
+                "extracted": null
+              },
+              "children": []
+            },
+            {
+              "node": {
+                "depth_index": 1,
+                "url": "https://geni.indianapolis.iu.edu/wp-content/uploads/2022/03/RLT-about-the-Russia-Ukraine-War-2022.docx",
+                "relevance": 1.0,
+                "explored": false,
+                "extracted": null
+              },
+              "children": []
+            },
+            {
+              "node": {
+                "depth_index": 1,
+                "url": "https://geni.indianapolis.iu.edu/wp-content/uploads/2022/03/RLT-about-the-Russia-Ukraine-War-2022.docx",
+                "relevance": 1.0,
+                "explored": false,
+                "extracted": null
+              },
+              "children": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "level": 0,
+      "links": [
+        {
+          "node": {
+            "depth_index": 0,
+            "url": "https://www.chathamhouse.org/2023/02/seven-ways-russias-war-ukraine-has-changed-world",
+            "relevance": 1.0,
+            "explored": false,
+            "extracted": {
+              "title": [
+                "searxng"
+              ],
+              "h1": [],
+              "h2": [],
+              "h3": [
+                "Seven ways Russia's war on Ukraine has changed the world",
+                "Russia's invasion of Ukraine: How it changed the world",
+                "Orysia Lutsevych",
+                "Putin's War in Ukraine and Its Global Repercussions",
+                "Independent Thinking: Can the UN's first cybercrime treaty ...",
+                "The Impact of The Russia-Ukraine Conflict On International Relations",
+                "NATO can learn from Ukraine's military innovation",
+                "DRAFT 1",
+                "The Russo-Ukrainian War and the Brazilian Perspective on ...",
+                "Putin's War in Ukraine and Its Global Repercussions"
+              ],
+              "h4": [],
+              "h5": [],
+              "h6": [],
+              "text": [
+                "\n    Chatham House experts examine the shifts in geopolitical alliances, security, energy, and supply chains and whether these changes are likely to be long-lasting.\n  ",
+                "\n    Chatham House is producing a multi-author feature reflecting on seven things Russia's war has changed in the world. The article assesses the impact of the war ...\n  ",
+                "\n    Seven ways Russia's war on Ukraine has changed the world. S Coles, L Rellstab, P Bergsen, J Kampfner, B Bland, A Vines, S Vakil, ... Chatham House. www.\n  ",
+                "\n    de Y Onay · 2024 — Putin's numerous strategic miscalculations – from underestimating Ukraine's military capabilities to misjudging Western unity and the impact of economic ...\n  ",
+                "\n    9 févr. 2024 — Seven ways Russia's war on Ukraine has changed the world. Chatham ... Chatham House is a world-leading policy institute with a mission ...\n  ",
+                "\n    Abstract, This study explores the international impact of the Russia-Ukraine conflict, focusing on its economic, political, and security dimensions.\n  ",
+                "\n    20 févr. 2023 — Seven ways Russia's war on Ukraine has changed the world. Chatham House experts examine the shifts in geopolitical alliances, security ...\n  ",
+                "\n    26 août 2024 — The war in Ukraine (and now Russia) has transformed international security organizations and doctrines. It has upended domestic as well as ...10 pages\n  ",
+                "\n    de L Schorlemer · 2024 — This paper argues that Brazil did not see the Russo-Ukrainian war as a trigger for a major shift in the international order.\n  ",
+                "\n    de Y Onay · 2024 — Putin's numerous strategic miscalculations – from underestimating Ukraine's military capabilities to misjudging Western unity and the impact of ...\n  ",
+                "\n    Powered by  searxng  - 2025.1.6+6dab7fe78 — a privacy-respecting, open metasearch engine \n         Source code \n        |  Issue tracker \n|  Engine stats         |  Public instances \n    "
+              ],
+              "links": [
+                "https://web.archive.org/web/https://ifrelresearch.org/index.php/jhsp-widyakarya/article/download/4278/4485/18155",
+                "https://web.archive.org/web/https://link.springer.com/article/10.1007/s11615-024-00552-z",
+                "https://searx.space",
+                "/",
+                "https://carleton.ca/eurus/wp-content/uploads/PSCI-4801A-EURR-4202C-Sahadeo-F24.pdf"
+              ]
+            }
+          },
+          "children": [
+            {
+              "node": {
+                "depth_index": 1,
+                "url": "https://web.archive.org/web/https://ifrelresearch.org/index.php/jhsp-widyakarya/article/download/4278/4485/18155",
+                "relevance": 1.0,
+                "explored": false,
+                "extracted": null
+              },
+              "children": []
+            },
+            {
+              "node": {
+                "depth_index": 1,
+                "url": "https://web.archive.org/web/https://link.springer.com/article/10.1007/s11615-024-00552-z",
+                "relevance": 1.0,
+                "explored": false,
+                "extracted": null
+              },
+              "children": []
+            },
+            {
+              "node": {
+                "depth_index": 1,
+                "url": "https://searx.space",
+                "relevance": 1.0,
+                "explored": false,
+                "extracted": null
+              },
+              "children": []
+            },
+            {
+              "node": {
+                "depth_index": 1,
+                "url": "/",
+                "relevance": 1.0,
+                "explored": false,
+                "extracted": null
+              },
+              "children": []
+            },
+            {
+              "node": {
+                "depth_index": 1,
+                "url": "https://carleton.ca/eurus/wp-content/uploads/PSCI-4801A-EURR-4202C-Sahadeo-F24.pdf",
+                "relevance": 1.0,
+                "explored": false,
+                "extracted": null
+              },
+              "children": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "level": 0,
+      "links": [
+        {
+          "node": {
+            "depth_index": 0,
+            "url": "https://www.chathamhouse.org/events/all/members-event/war-ukraine-evolution-war",
+            "relevance": 1.0,
+            "explored": false,
+            "extracted": {
+              "title": [
+                "searxng"
+              ],
+              "h1": [],
+              "h2": [],
+              "h3": [
+                "War on Ukraine: Evolution of the war",
+                "War on Ukraine: What we know of the invasion",
+                "Ending the Russo-Ukrainian war: scenarios and ...",
+                "Events | Chatham House – International Affairs Think Tank",
+                "Ukraine | Chatham House – International Affairs Think Tank",
+                "War on Ukraine: Storm on the Black Sea",
+                "Ten conflicts to watch in 2024",
+                "Seven ways Russia's war on Ukraine has changed the world",
+                "War on Ukraine: China's domestic and diplomatic ...",
+                "War on Ukraine: Exploring the humanitarian response to ..."
+              ],
+              "h4": [],
+              "h5": [],
+              "h6": [],
+              "text": [
+                "\n    Expert-led panel investigate questions on the evolution of the war. As the world moved past 100 days of conflict in Ukraine, there has been a gradual evolution ...\n  ",
+                "\n    Experts discuss recent events unfolding in the war on Ukraine. Members event, Panel. 8 September 2022 — 6:00PM TO 7:00PM. Online.\n  ",
+                "\n    Chatham House experts outline some of the possible scenarios for how the end of fighting might come about and the consequences emanating from each scenario.\n  ",
+                "\n    The institute runs more than 300 private and public events – conferences, workshops and roundtables – in London and internationally with partners.\n  ",
+                "\n    Examining how Ukraine can be best supported to end the Russian invasion, and successfully rebuild its society, infrastructure, and economy.\n  ",
+                "\n    The panel discusses the significance of the Russian invasion on Ukraine's southern front and implications for the Black Sea region.\n  ",
+                "\n    This event examines the most dangerous wars and crises through the lens of International Crisis Group's flagship annual report Ten Conflicts to Watch.\n  ",
+                "\n    Chatham House experts examine the shifts in geopolitical alliances, security, energy, and supply chains and whether these changes are likely to be long-lasting.\n  ",
+                "\n    How has Russia's invasion of Ukraine challenged Beijing's messaging at home and disrupted China's global ambitions? Members event, Panel Recording.\n  ",
+                "\n    This event explores the implications of the humanitarian realities from Russia's invasion of Ukraine, the largest ground campaign in Europe since World War Two.\n  ",
+                "\n    Powered by  searxng  - 2025.1.6+6dab7fe78 — a privacy-respecting, open metasearch engine \n         Source code \n        |  Issue tracker \n|  Engine stats         |  Public instances \n    "
+              ],
+              "links": [
+                "https://searx.space",
+                "/",
+                "/stats?engine=google",
+                "/stats?engine=duckduckgo",
+                "/stats"
+              ]
+            }
+          },
+          "children": [
+            {
+              "node": {
+                "depth_index": 1,
+                "url": "https://searx.space",
+                "relevance": 1.0,
+                "explored": false,
+                "extracted": null
+              },
+              "children": []
+            },
+            {
+              "node": {
+                "depth_index": 1,
+                "url": "/",
+                "relevance": 1.0,
+                "explored": false,
+                "extracted": null
+              },
+              "children": []
+            },
+            {
+              "node": {
+                "depth_index": 1,
+                "url": "/stats?engine=google",
+                "relevance": 1.0,
+                "explored": false,
+                "extracted": null
+              },
+              "children": []
+            },
+            {
+              "node": {
+                "depth_index": 1,
+                "url": "/stats?engine=duckduckgo",
+                "relevance": 1.0,
+                "explored": false,
+                "extracted": null
+              },
+              "children": []
+            },
+            {
+              "node": {
+                "depth_index": 1,
+                "url": "/stats",
+                "relevance": 1.0,
+                "explored": false,
+                "extracted": null
+              },
+              "children": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "level": 0,
+      "links": [
+        {
+          "node": {
+            "depth_index": 0,
+            "url": "https://icds.ee/en/russias-war-in-ukraine-the-evolution-of-grand-strategy/",
+            "relevance": 1.0,
+            "explored": false,
+            "extracted": {
+              "title": [
+                "searxng"
+              ],
+              "h1": [],
+              "h2": [],
+              "h3": [
+                "Russia's War in Ukraine: The Evolution of Grand Strategy",
+                "The Evolution of Grand Strategy",
+                "The Evolution of Grand Strategy",
+                "Russia's War in Ukraine: The Evolution of Grand Strategy",
+                "Russia's War in Ukraine Series: War and Industry",
+                "Leonid Polyakov - ICDS",
+                "Russia's War in Ukraine: Artificial Intelligence in Defence of ...",
+                "International Centre for Defence and Security - ICDS - ...",
+                "5/ The Evolution of Grand Strategy by Leonid Polyakov",
+                "Russia's War in Ukraine: War and Society"
+              ],
+              "h4": [],
+              "h5": [],
+              "h6": [],
+              "text": [
+                "\n    22 avr. 2024 — Leonid Polyakov observes that while Ukraine's strategic objectives have remained the same throughout the war, the ways and means to achieve them have shifted.\n  ",
+                "\n    Ukraine's grand strategic objectives, meanwhile, have remained unchanged: to repel the invasion, to restore territorial integrity and state sovereignty, to ...\n  ",
+                "\n    Ukraine's grand strategic objectives, meanwhile, have remained unchanged: to repel the invasion, to restore territorial integrity and state sovereignty, to ...\n  ",
+                "\n    7 juin 2024 — As Russia's war in Ukraine enters its third year, we are publishing a second series of briefs on various aspects of the conflict.\n  ",
+                "\n    16 juil. 2024 — Brief 1. Mobilisation in Wartime, Andriy Stavytskyy · Brief 2. The Evolution of Grand Strategy, Leonid Polyakov · Brief 3. War and Society, Mykola ...\n  ",
+                "\n    Russia's War in Ukraine: The Evolution of Grand Strategy. As Russia's war in Ukraine enters its third year, we are publishing a second series of briefs on ...\n  ",
+                "\n    27 sept. 2024 — This brief explores the state of defence AI in Ukraine and highlights the main lessons that can be learned from the Ukrainian experience.\n  ",
+                "\n    Europe's gas supply is not at risk after Ukraine suspended the transport of Russian gas, but Moscow could create a humanitarian disaster in ...\n  ",
+                "\n    5/ The Evolution of Grand Strategy by Leonid Polyakov. Russia's War in Ukraine: The Evolution of Grand Strategy. From icds.ee.\n  ",
+                "\n    Russia's full-scale invasion of Ukraine in 2022 tested the functioning of both Ukraine's state apparatus and its entire society.\n  ",
+                "\n    Powered by  searxng  - 2025.1.6+6dab7fe78 — a privacy-respecting, open metasearch engine \n         Source code \n        |  Issue tracker \n|  Engine stats         |  Public instances \n    "
+              ],
+              "links": [
+                "https://web.archive.org/web/https://icds.ee/wp-content/uploads/dlm_uploads/2024/04/ICDS_Brief_The_Evolution_of_Grand_Strategy_Leonid_Polyakov_April_2024.pdf",
+                "https://web.archive.org/web/https://www.jstor.org/stable/resrep59436",
+                "https://searx.space",
+                "https://web.archive.org/web/https://icds.ee/en/autor/leonid-polyakov/",
+                "/"
+              ]
+            }
+          },
+          "children": [
+            {
+              "node": {
+                "depth_index": 1,
+                "url": "https://web.archive.org/web/https://icds.ee/wp-content/uploads/dlm_uploads/2024/04/ICDS_Brief_The_Evolution_of_Grand_Strategy_Leonid_Polyakov_April_2024.pdf",
+                "relevance": 1.0,
+                "explored": false,
+                "extracted": null
+              },
+              "children": []
+            },
+            {
+              "node": {
+                "depth_index": 1,
+                "url": "https://web.archive.org/web/https://www.jstor.org/stable/resrep59436",
+                "relevance": 1.0,
+                "explored": false,
+                "extracted": null
+              },
+              "children": []
+            },
+            {
+              "node": {
+                "depth_index": 1,
+                "url": "https://searx.space",
+                "relevance": 1.0,
+                "explored": false,
+                "extracted": null
+              },
+              "children": []
+            },
+            {
+              "node": {
+                "depth_index": 1,
+                "url": "https://web.archive.org/web/https://icds.ee/en/autor/leonid-polyakov/",
+                "relevance": 1.0,
+                "explored": false,
+                "extracted": null
+              },
+              "children": []
+            },
+            {
+              "node": {
+                "depth_index": 1,
+                "url": "/",
+                "relevance": 1.0,
+                "explored": false,
+                "extracted": null
+              },
+              "children": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "level": 0,
+      "links": [
+        {
+          "node": {
+            "depth_index": 0,
+            "url": "https://www.orfonline.org/expert-speak/evolution-of-battlefield-tactics-in-the-russia-ukraine-conflict-the-ukrainian-response",
+            "relevance": 1.0,
+            "explored": false,
+            "extracted": {
+              "title": [
+                "searxng"
+              ],
+              "h1": [],
+              "h2": [],
+              "h3": [
+                "Evolution of battlefield tactics in the Russia-Ukraine conflict",
+                "Evolution of battlefield tactics in the Russia-Ukraine conflict",
+                "ukraine offensive in russia",
+                "western arms supplies to ukraine",
+                "Search: For - ukraine offensive in kursk",
+                "Expert Speak",
+                "Rajoli Siddharth Jayaprakash",
+                "Expert Speak",
+                "Rajoli Siddharth Jayaprakash's Post",
+                "Featured"
+              ],
+              "h4": [],
+              "h5": [],
+              "h6": [],
+              "text": [
+                "\n    Sep 25, 2024 — The Russian offensive was slowed down because of an initial shortage of manpower. Ukrainian forces outnumbered Russian forces, having ...\n  ",
+                "\n    Sep 25, 2024 — The Russian offensive was slowed down because of an initial shortage of manpower. Ukrainian forces outnumbered Russian forces, having ...\n  ",
+                "\n    युद्धादरम्यान 'रशिया-युक्रेन'च्या रणनीतीमधील सततचे बदल आणि युक्रेनची प्रतिक्रिया... · Evolution of battlefield tactics in the Russia-Ukraine conflict: The Ukrainian response.\n  ",
+                "\n    Expert Speak · International Affairs. share img. Sep 25, 2024. Evolution of battlefield tactics in the Russia-Ukraine conflict: The Ukrainian response · Rajoli ...\n  ",
+                "\n    Evolution of battlefield tactics in the Russia-Ukraine conflict: The Ukrainian response. Despite the effective execution of the Kursk incursion, it did not ...\n  ",
+                "\n    Evolution of battlefield tactics in the Russia-Ukraine conflict: The Ukrainian response. Expert Speak · International Affairs. share img. Expert Speak. Sep 25 ...\n  ",
+                "\n    Evolution of battlefield tactics in the Russia-Ukraine conflict: The Ukrainian response · Rajoli Siddharth Jayaprakash | Kartik Bommakanti · The Power of ...\n  ",
+                "\n    Expert Speak · Commentaries · Young Voices ... Evolution of battlefield tactics in the Russia-Ukraine conflict: The Ukrainian response.\n  ",
+                "\n    In the early stages of the Russia-Ukraine war, Ukrainian forces, backed by Western tactical support, gained a technological and tactical edge over Russia.\n  ",
+                "\n    Evolution of battlefield tactics in the Russia-Ukraine conflict: The Ukrainian response. Expert Speak · International Affairs. share img. Sep 25, 2024 ...\n  ",
+                "\n    Powered by  searxng  - 2025.1.6+6dab7fe78 — a privacy-respecting, open metasearch engine \n         Source code \n        |  Issue tracker \n|  Engine stats         |  Public instances \n    "
+              ],
+              "links": [
+                "https://www.orfonline.org/index.php/search?q=ukraine%20offensive%20in%20kursk",
+                "https://www.orfonline.org/index.php/search?q=ukraine%20offensive%20in%20kursk",
+                "https://web.archive.org/web/https://www.orfonline.org/people-expert/rajoli-siddharth-jayaprakash/featured",
+                "https://searx.space",
+                "/"
+              ]
+            }
+          },
+          "children": [
+            {
+              "node": {
+                "depth_index": 1,
+                "url": "https://www.orfonline.org/index.php/search?q=ukraine%20offensive%20in%20kursk",
+                "relevance": 1.0,
+                "explored": false,
+                "extracted": null
+              },
+              "children": []
+            },
+            {
+              "node": {
+                "depth_index": 1,
+                "url": "https://www.orfonline.org/index.php/search?q=ukraine%20offensive%20in%20kursk",
+                "relevance": 1.0,
+                "explored": false,
+                "extracted": null
+              },
+              "children": []
+            },
+            {
+              "node": {
+                "depth_index": 1,
+                "url": "https://web.archive.org/web/https://www.orfonline.org/people-expert/rajoli-siddharth-jayaprakash/featured",
+                "relevance": 1.0,
+                "explored": false,
+                "extracted": null
+              },
+              "children": []
+            },
+            {
+              "node": {
+                "depth_index": 1,
+                "url": "https://searx.space",
+                "relevance": 1.0,
+                "explored": false,
+                "extracted": null
+              },
+              "children": []
+            },
+            {
+              "node": {
+                "depth_index": 1,
+                "url": "/",
+                "relevance": 1.0,
+                "explored": false,
+                "extracted": null
+              },
+              "children": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "level": 0,
+      "links": [
+        {
+          "node": {
+            "depth_index": 0,
+            "url": "https://commonslibrary.parliament.uk/research-briefings/cbp-9847/",
+            "relevance": 1.0,
+            "explored": false,
+            "extracted": {
+              "title": [
+                "searxng"
+              ],
+              "h1": [],
+              "h2": [],
+              "h3": [
+                "Conflict in Ukraine: A timeline (current conflict, 2022 - present)",
+                "Conflict in Ukraine: A timeline (current conflict, 2022-present)",
+                "Conflict in Ukraine: A timeline (2014 - eve of 2022 invasion)",
+                "The conflict in Ukraine - House of Commons Library",
+                "Conflict in Ukraine: A timeline (2014 - eve of 2022 invasion)",
+                "Relações Internacionais no Mundo Atual",
+                "Our use of cookies - Search - UK Parliament",
+                "Our use of cookies - Search - UK Parliament",
+                "Search - UK Parliament",
+                "Environmental Effects of Military Conflicts"
+              ],
+              "h4": [],
+              "h5": [],
+              "h6": [],
+              "text": [
+                "\n    16 sept. 2024 — This paper provides a timeline of the major events that happened in the conflict in Ukraine since the 2022 Russian invasion.\n  ",
+                "\n    23 août 2023 — This paper provides a timeline of the major events that happened in the conflict in Ukraine since the 2022 Russian invasion. A timeline covering ...99 pages\n  ",
+                "\n    22 août 2023 — A timeline covering the events since Russia's invasion of Ukraine in 2022 is available in Commons Library research briefing CBP-9847, Conflict ...\n  ",
+                "\n    Research produced by the Commons Library relating to the conflict in Ukraine, including military assistance, sanctions, energy security, and NATO.\n  ",
+                "\n    22 août 2023 — A timeline covering the events since Russia's invasion of Ukraine in 2022 is available in Commons Library research briefing CBP-9847, Conflict ...39 pages\n  ",
+                "\n    de N Podkoritnik · 2024 — Objective: This study aims to analyze how the COVID-19 pandemic and the Russian-Ukrainian war have impacted the wheat supply in the European Union (EU), ...\n  ",
+                "\n    What does the UK Parliament do? Parliament is the UK's legislature, which means only Parliament can legislate (make laws) for the whole of the UK.\n  ",
+                "\n    This Commons Library briefing paper outlines the role that select committees play in assessing the suitability of the Government's favoured candidates for a ...\n  ",
+                "\n    Research briefings Produced by Commons Library, Lords Library, and Parliamentary Office Science and Technology. Brexit research & analysis Next steps for the UK ...\n  ",
+                "\n    Walker, N. Conflict in Ukraine: A Timeline Story. Available at  https://commonslibrary.parliament.uk/research-briefings/cbp-9847/  , accessed at 20.03.2024.\n  ",
+                "\n    Powered by  searxng  - 2025.1.6+6dab7fe78 — a privacy-respecting, open metasearch engine \n         Source code \n        |  Issue tracker \n|  Engine stats         |  Public instances \n    "
+              ],
+              "links": [
+                "https://web.archive.org/web/https://sciendo.com/pl/article/10.2478/kbo-2024-0005?tab=references",
+                "https://web.archive.org/web/http://revista.unicuritiba.edu.br/index.php/RIMA/article/view/7500",
+                "https://searx.space",
+                "https://web.archive.org/web/https://websearch.parliament.uk/?q=prime%20minister&page=16",
+                "/"
+              ]
+            }
+          },
+          "children": [
+            {
+              "node": {
+                "depth_index": 1,
+                "url": "https://web.archive.org/web/https://sciendo.com/pl/article/10.2478/kbo-2024-0005?tab=references",
+                "relevance": 1.0,
+                "explored": false,
+                "extracted": null
+              },
+              "children": []
+            },
+            {
+              "node": {
+                "depth_index": 1,
+                "url": "https://web.archive.org/web/http://revista.unicuritiba.edu.br/index.php/RIMA/article/view/7500",
+                "relevance": 1.0,
+                "explored": false,
+                "extracted": null
+              },
+              "children": []
+            },
+            {
+              "node": {
+                "depth_index": 1,
+                "url": "https://searx.space",
+                "relevance": 1.0,
+                "explored": false,
+                "extracted": null
+              },
+              "children": []
+            },
+            {
+              "node": {
+                "depth_index": 1,
+                "url": "https://web.archive.org/web/https://websearch.parliament.uk/?q=prime%20minister&page=16",
+                "relevance": 1.0,
+                "explored": false,
+                "extracted": null
+              },
+              "children": []
+            },
+            {
+              "node": {
+                "depth_index": 1,
+                "url": "/",
+                "relevance": 1.0,
+                "explored": false,
+                "extracted": null
+              },
+              "children": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "level": 0,
+      "links": [
+        {
+          "node": {
+            "depth_index": 0,
+            "url": "https://www.politico.eu/article/developments-from-ukraine-precision-warfare-on-the-cheap/",
+            "relevance": 1.0,
+            "explored": false,
+            "extracted": {
+              "title": [
+                "searxng"
+              ],
+              "h1": [],
+              "h2": [],
+              "h3": [
+                "'One shot, one kill': How Ukraine-Russia war is changing warfare",
+                "'Our Oppenheimer moment' — In Ukraine, the robot wars have ...",
+                "Ukraine's war strategy: Survive 2024 to win in 2025 – POLITICO",
+                "War in Ukraine - POLITICO.eu",
+                "POLITICO – European Politics, Policy, Government News",
+                "Think Tank reports on the invasion of Ukraine 2022 - February ...",
+                "War in Ukraine – Page 40 - POLITICO.eu",
+                "The future of warfare: A $400 drone killing a $2M tank",
+                "The impact of the war in Ukraine on the EU's Common ...",
+                "Russia's war on Ukraine: EU food policy implications"
+              ],
+              "h4": [],
+              "h5": [],
+              "h6": [],
+              "text": [
+                "\n    13 févr. 2024 — Guided drones with precision munitions, on the other hand, are war on the cheap. Of course, for the frontline troops of a Ukrainian brigade ...\n  ",
+                "\n    16 mai 2024 — There was no fighting fire with fire. You had to douse it with bits. Drones — military-grade or cheap hobbyist models — epitomize that strategy.\n  ",
+                "\n    22 févr. 2024 — The country aims to raise its military budget to 3 percent of GDP by the end of the decade, well short of Trump's call for 5 percent. Jan 20 ...\n  ",
+                "\n    Russian defense spending overtakes Europe, study finds. Russia's invasion of Ukraine has sent its defense spending skyrocketing, and is raising fears it will ...\n  ",
+                "\n    War in Ukraine · Munich Security Conference · Newsletters · Podcasts · Poll of ... Spain pushes to double ...\n  ",
+                "\n    What the EU budget can and cannot do in response to the war in Ukraine. The Russian invasion of Ukraine has sparked a debate on whether the EU should issue ...\n  ",
+                "\n    ... Ukraine-Russia war is changing warfare. In today's world, the battlefield has become transparent, the warheads much more precise and the weapons very cheap.\n  ",
+                "\n    26 oct. 2023 — Tiny drones flown by operators like Firsov that, for a few hundred dollars, can deliver an explosive charge capable of destroying a Russian tank worth more ...\n  ",
+                "\n    de C Moser · 2023 — Ukraine is financed, namely by EU money (but not by the EU budget!). Indeed, the Council made (and still makes) extensive use of the European.\n  ",
+                "\n    While there is no immediate threat to food availability in the EU at present, to keep food affordable, the Commission will allow EU countries to use reduced ...2 pages\n  ",
+                "\n    Powered by  searxng  - 2025.1.6+6dab7fe78 — a privacy-respecting, open metasearch engine \n         Source code \n        |  Issue tracker \n|  Engine stats         |  Public instances \n    "
+              ],
+              "links": [
+                "https://web.archive.org/web/https://www.europarl.europa.eu/RegData/etudes/ATAG/2022/729368/EPRS_ATA(2022)729368_EN.pdf",
+                "https://searx.space",
+                "/",
+                "/stats?engine=google",
+                "/stats?engine=duckduckgo"
+              ]
+            }
+          },
+          "children": [
+            {
+              "node": {
+                "depth_index": 1,
+                "url": "https://web.archive.org/web/https://www.europarl.europa.eu/RegData/etudes/ATAG/2022/729368/EPRS_ATA(2022)729368_EN.pdf",
+                "relevance": 1.0,
+                "explored": false,
+                "extracted": null
+              },
+              "children": []
+            },
+            {
+              "node": {
+                "depth_index": 1,
+                "url": "https://searx.space",
+                "relevance": 1.0,
+                "explored": false,
+                "extracted": null
+              },
+              "children": []
+            },
+            {
+              "node": {
+                "depth_index": 1,
+                "url": "/",
+                "relevance": 1.0,
+                "explored": false,
+                "extracted": null
+              },
+              "children": []
+            },
+            {
+              "node": {
+                "depth_index": 1,
+                "url": "/stats?engine=google",
+                "relevance": 1.0,
+                "explored": false,
+                "extracted": null
+              },
+              "children": []
+            },
+            {
+              "node": {
+                "depth_index": 1,
+                "url": "/stats?engine=duckduckgo",
+                "relevance": 1.0,
+                "explored": false,
+                "extracted": null
+              },
+              "children": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "level": 0,
+      "links": [
+        {
+          "node": {
+            "depth_index": 0,
+            "url": "https://www.cfr.org/global-conflict-tracker/conflict/conflict-ukraine",
+            "relevance": 1.0,
+            "explored": false,
+            "extracted": {
+              "title": [
+                "searxng"
+              ],
+              "h1": [],
+              "h2": [],
+              "h3": [
+                "War in Ukraine | Global Conflict Tracker",
+                "Global Conflict Tracker",
+                "Ukraine",
+                "Civil Conflict in Libya | Global Conflict Tracker",
+                "Instability in Afghanistan | Global Conflict Tracker",
+                "Confrontation Over Taiwan | Global Conflict Tracker",
+                "Violent Extremism in the Sahel | Global Conflict Tracker",
+                "Ukraine Conflict: Home",
+                "Nagorno-Karabakh Conflict | Global Conflict Tracker",
+                "CrisisWatch Conflict Tracker"
+              ],
+              "h4": [],
+              "h5": [],
+              "h6": [],
+              "text": [
+                "\n    il y a 3 jours — Russia continues to bombard Ukrainian cities, while Ukraine maintains drone attacks on Russian ships and military vehicles. Since January 2022, ...\n  ",
+                "\n    The Global Conflict Tracker is an interactive guide to ongoing conflicts around the world of concern to the United States with background information and ...\n  ",
+                "\n    Russia's invasion of Ukraine has shaken the geopolitical foundations of Europe and triggered a reassessment of transatlantic security.\n  ",
+                "\n    Read about Libya's civil war and struggle to restore state institutions since the ouster of Colonel Muammar al-Qaddafi. Track the latest developments on ...\n  ",
+                "\n    Learn about the War in Afghanistan and keep up with recent developments on the Center for Preventive Action's Global Conflict Tracker.\n  ",
+                "\n    The ongoing dispute has led to heightened military confrontation in the Taiwan Strait, which geographically separates mainland China from the island of Taiwan.\n  ",
+                "\n    Violence, conflict, and crime have surged over the last decade, transcending national borders and posing significant challenges to countries both in and outside ...\n  ",
+                "\n    On 24 February 2022, Russia began a military invasion of Ukraine, in a major escalation of the Russo-Ukrainian conflict that began in 2014.\n  ",
+                "\n    Learn about the conflict over the border region claimed by both Armenia and Azerbaijan and see the latest developments on CFR's Global Conflict Tracker.\n  ",
+                "\n    CrisisWatch is our global conflict tracker, an early warning tool designed to help prevent deadly violence. It keeps decision-makers up-to-date with ...\n  ",
+                "\n    Powered by  searxng  - 2025.1.6+6dab7fe78 — a privacy-respecting, open metasearch engine \n         Source code \n        |  Issue tracker \n|  Engine stats         |  Public instances \n    "
+              ],
+              "links": [
+                "https://searx.space",
+                "/",
+                "/stats?engine=google",
+                "https://web.archive.org/web/https://www.cfr.org/europe-and-eurasia/ukraine",
+                "/stats?engine=duckduckgo"
+              ]
+            }
+          },
+          "children": [
+            {
+              "node": {
+                "depth_index": 1,
+                "url": "https://searx.space",
+                "relevance": 1.0,
+                "explored": false,
+                "extracted": null
+              },
+              "children": []
+            },
+            {
+              "node": {
+                "depth_index": 1,
+                "url": "/",
+                "relevance": 1.0,
+                "explored": false,
+                "extracted": null
+              },
+              "children": []
+            },
+            {
+              "node": {
+                "depth_index": 1,
+                "url": "/stats?engine=google",
+                "relevance": 1.0,
+                "explored": false,
+                "extracted": null
+              },
+              "children": []
+            },
+            {
+              "node": {
+                "depth_index": 1,
+                "url": "https://web.archive.org/web/https://www.cfr.org/europe-and-eurasia/ukraine",
+                "relevance": 1.0,
+                "explored": false,
+                "extracted": null
+              },
+              "children": []
+            },
+            {
+              "node": {
+                "depth_index": 1,
+                "url": "/stats?engine=duckduckgo",
+                "relevance": 1.0,
+                "explored": false,
+                "extracted": null
+              },
+              "children": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "level": 0,
+      "links": [
+        {
+          "node": {
+            "depth_index": 0,
+            "url": "https://www.futuribles.com/en/guerre-en-ukraine-quels-scenarios-evolution-du-con/",
+            "relevance": 1.0,
+            "explored": false,
+            "extracted": {
+              "title": [
+                "searxng"
+              ],
+              "h1": [],
+              "h2": [],
+              "h3": [
+                "What Scenarios for the War in Ukraine?",
+                "Guerre en Ukraine : quels scénarios",
+                "En 2040, vivrons-nous dans une société où l'engagement ...",
+                "(PDF) l'impact de la guerre en Ukraine sur l'économie ...",
+                "Cultures & conflits 133",
+                "analyses conjoncturelles et structurelles post-Covid",
+                "Europe de l'Est: incertitudes du renouveau",
+                "vers une union politique européenne : le rôle d'un noyau ...",
+                "La transition énergétique européenne dans le « tournant ...",
+                "Actualité des revues géopolitiques"
+              ],
+              "h4": [],
+              "h5": [],
+              "h6": [],
+              "text": [
+                "\n    Six scenarios for how the conflict might unfold have been proposed, working to a short time horizon (three years).\n  ",
+                "\n    Sur cette base, six scénarios d'évolution du conflit ont été proposés, avec un horizon temporel court (à trois ans). Trois en particulier ont été développés et ...\n  ",
+                "\n    Dans l'après-midi, la Fonda mettra en débat ces quatre scénarios prospectifs à l'horizon 2040. Vers quelle société de l'engagement voulons-nous aller ? Celle où ...\n  ",
+                "\n    12 août 2024 — Ce rapport se penche sur l'impact de la guerre en Ukraine sur l'économie mondiale, avec une attention particulière sur la Tunisie et l'Algérie.\n  ",
+                "\n    Ce nouveau numéro de Cultures & Conflits nous donne l'occasion de présenter les thèmes auxquels la revue souhaite donner priorité au cours des prochains ...\n  ",
+                "\n    1 mai 2022 — L'analyse de la compétitivité couvre l'évolution des prix et des coûts, la formation des salaires tout comme les aspects de compétitivité hors ...\n  ",
+                "\n    Quel est à votre avis, le rôle de la culture dans cette évolution ? Il est intéressant de noter comme le vocabulaire a changé. On n'avait jadis que le mot ...\n  ",
+                "\n    Ce livre est né de la sensation que nous avons du contraire : que l'Union stagne, ce qui signifie dans le monde actuel qu'elle recule.\n  ",
+                "\n    https://www.futuribles.com/garder- · le-cap-de-la-transition-energie-climat ... Guerre en Ukraine, matériaux critiques, compétition industrielle : les nou-.\n  ",
+                "\n    1 janv. 2025 — Le DIPLOWEB.COM est LE media géopolitique indépendant en accès gratuit, fondé en l'an 2000. Nous vous proposons.\n  ",
+                "\n    Powered by  searxng  - 2025.1.6+6dab7fe78 — a privacy-respecting, open metasearch engine \n         Source code \n        |  Issue tracker \n|  Engine stats         |  Public instances \n    "
+              ],
+              "links": [
+                "https://www.researchgate.net/publication/383035093_l%27impact_de_la_guerre_en_Ukraine_sur_l%27economie_mondiale_et_specialement_sur_l%27economie_Tunisienne_et_Algerienne",
+                "https://www.researchgate.net/publication/383035093_l%27impact_de_la_guerre_en_Ukraine_sur_l%27economie_mondiale_et_specialement_sur_l%27economie_Tunisienne_et_Algerienne",
+                "https://web.archive.org/web/https://www.researchgate.net/publication/383035093_l%27impact_de_la_guerre_en_Ukraine_sur_l%27economie_mondiale_et_specialement_sur_l%27economie_Tunisienne_et_Algerienne",
+                "https://web.archive.org/web/https://www.unige.ch/gsi/centresidjanski/download_file/view/132/256",
+                "https://shs.cairn.info/article/EUFOR_397_0055/pdf?lang=fr&ID_ARTICLE=EUFOR_397_0055&download=1"
+              ]
+            }
+          },
+          "children": [
+            {
+              "node": {
+                "depth_index": 1,
+                "url": "https://www.researchgate.net/publication/383035093_l%27impact_de_la_guerre_en_Ukraine_sur_l%27economie_mondiale_et_specialement_sur_l%27economie_Tunisienne_et_Algerienne",
+                "relevance": 1.0,
+                "explored": false,
+                "extracted": null
+              },
+              "children": []
+            },
+            {
+              "node": {
+                "depth_index": 1,
+                "url": "https://www.researchgate.net/publication/383035093_l%27impact_de_la_guerre_en_Ukraine_sur_l%27economie_mondiale_et_specialement_sur_l%27economie_Tunisienne_et_Algerienne",
+                "relevance": 1.0,
+                "explored": false,
+                "extracted": null
+              },
+              "children": []
+            },
+            {
+              "node": {
+                "depth_index": 1,
+                "url": "https://web.archive.org/web/https://www.researchgate.net/publication/383035093_l%27impact_de_la_guerre_en_Ukraine_sur_l%27economie_mondiale_et_specialement_sur_l%27economie_Tunisienne_et_Algerienne",
+                "relevance": 1.0,
+                "explored": false,
+                "extracted": null
+              },
+              "children": []
+            },
+            {
+              "node": {
+                "depth_index": 1,
+                "url": "https://web.archive.org/web/https://www.unige.ch/gsi/centresidjanski/download_file/view/132/256",
+                "relevance": 1.0,
+                "explored": false,
+                "extracted": null
+              },
+              "children": []
+            },
+            {
+              "node": {
+                "depth_index": 1,
+                "url": "https://shs.cairn.info/article/EUFOR_397_0055/pdf?lang=fr&ID_ARTICLE=EUFOR_397_0055&download=1",
+                "relevance": 1.0,
+                "explored": false,
+                "extracted": null
+              },
+              "children": []
+            }
+          ]
+        }
+      ]
+    }
+  ],
   "query": "how is the war in ukraine evolving",
   "depth": 1
 }

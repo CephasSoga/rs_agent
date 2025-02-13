@@ -13,6 +13,7 @@ use rayon::prelude::*;
 use serde::{Serialize, Deserialize};
 use indicatif::{ProgressBar, ProgressStyle};
 
+use tracing::{info, error};
 
 
 /// Default paths for the model.
@@ -443,6 +444,7 @@ impl Word2VecFromFile {
 
     /// Get the embedding for a text by averaging the embeddings of its words.
     pub fn get_embedding_for_text(&self, text: &str) -> Option<Vec<f32>> {
+        info!("Getting embedding for text: {}.", text);
         let words: Vec<&str> = text.split_whitespace().collect();
         let mut embeddings: Vec<Vec<f32>> = Vec::new();
         
