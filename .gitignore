@@ -1,0 +1,6 @@
+/target
+config.*
+test*
+models
+data
+.idea
