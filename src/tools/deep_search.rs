@@ -137,7 +137,7 @@ pub trait ExhautNodes {
 pub struct DeepSearchEngine {
     engine: MetaSearchEngine,
     embedding_model: Option<Arc<Word2VecFromFile>>,
-    explored: Arc<DashSet<String>>
+    pub explored: Arc<DashSet<String>>
 }
 
 impl DeepSearchEngine {
@@ -180,7 +180,7 @@ impl DeepSearchEngine {
 
 impl HtmlOps for DeepSearchEngine {
     fn filter_valid_links(potential_links: &[String]) -> Vec<String> {
-        info!("Filtering found links...");
+        debug!("Filtering found links...");
         let url_regex = Regex::new(r#"(?i)\b(?:https?://|www\.)\S+\b"#).unwrap();
         
         potential_links
@@ -273,7 +273,7 @@ impl ExhautNodes for DeepSearchEngine {
             return Ok(Vec::new());
         }
 
-        info!("Fetching children for node. | Url: {:?}", parent.node.url);
+        debug!("Fetching children for node. | Url: {:?}", parent.node.url);
 
         match self.engine.request(&parent.node.url, Some("html")).await {
             Ok(response) => {
@@ -285,8 +285,10 @@ impl ExhautNodes for DeepSearchEngine {
                     debug!("Wrapped HTML for URL: <{:#?}>.", &html_wrap);
                     
                     parent.node.extracted = Some(html_wrap.clone());
+                    parent.node.explored = true;
                     let score = self.score_link(q_emb, &parent.node.url).await?;
                     parent.node.update(score);
+                    self.explored.insert(parent.node.url.clone());
 
                     let child_nodes: Vec<TreeNode<Node>> = html_wrap.links.iter().map(|url| {
                         TreeNode::new(Node {
@@ -305,7 +307,7 @@ impl ExhautNodes for DeepSearchEngine {
             Err(err) => {
                 error!("Failed to fetch children for URL: <{}>.", &parent.node.url);
                 return Err(err);
-            }
+            }  
         }
         // Return an empty vector if no children were fetched
         Ok(Vec::new())
@@ -329,8 +331,13 @@ impl ExhautNodes for DeepSearchEngine {
             *target = self.engine.extract(html, field).await;
         }
 
-        // filter valid links
-        html_wrap.links = Self::filter_valid_links(&html_wrap.links);
+        // filter valid links and keep unique ones.
+        html_wrap.links = Self::filter_valid_links(&html_wrap.links)
+            .iter()
+            .cloned()
+            .collect::<HashSet<String>>()
+            .into_iter()
+            .collect::<Vec<String>>();
 
         // Collect scores first
         let mut scored_links = Vec::new();
@@ -378,28 +385,36 @@ impl ExhautNodes for DeepSearchEngine {
     }
 
     async fn explore_node(&self, q_emb: &Option<Vec<f32>>, tree: TreeNode<Node>, depth: u32, result: Arc<Mutex<SearchTree>>, explored: Self::ArcEx) {
-        let curr_link = tree.clone().node.url;
-        if explored.contains(&curr_link) {
-            info!("Link already explored: {}. Skipped" , &curr_link);
-            return;
+        // Check if the node has already been explored
+        if explored.contains(&tree.node.url) {
+            info!("Node is already explored. Skipped. | Url: {}.", &tree.node.url);
+            return; // Skip this node
         }
-        info!("Exploring node. | Node:{}. | Depth: {}.", &curr_link, &depth);
+        // Mark the node as explored
+        //explored.insert(tree.node.url.clone());
         let mut level_counter = 0;
-        let mut current_nodes = vec![tree];
+        let mut current_nodes = vec![tree.clone()];
 
         while level_counter < depth {
+            info!("Exploring node. | Node:{}. | Depth: {}/{}.", &tree.node.url, level_counter+1, &depth);
+
             let mut next_nodes = vec![];
+
             for link_node in &mut current_nodes {
+                if link_node.node.explored || explored.contains(&link_node.node.url) {
+                    info!("Link has been explored previously. Skipped. | Url: {}.", &link_node.node.url);
+                    continue;
+                }
+
                 self.fetch_children(q_emb, link_node, depth - level_counter).await;
                 next_nodes.extend(link_node.children.clone());
             }
 
             result.lock().await.levels.push(DepthLevel { level: level_counter, links: current_nodes.clone() });
+
             level_counter += 1;
             current_nodes = next_nodes;
         }
-
-        explored.insert(curr_link);
     }
 
     async fn score_link(&self, q_emb: &Option<Vec<f32>>, link: &str) -> Result<f64, Self::E> {

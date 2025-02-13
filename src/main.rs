@@ -23,11 +23,11 @@ async fn main() {
     let mut engine = DeepSearchEngine::new("http://localhost:8080/search");
     //let mut roots = engine.fetch_roots("how is the war in ukraine evolving").await.unwrap();
     //let _ = engine.pretty_save_to_file("tree.json", &tree.clone());
-    let tree = engine.run("how is the war in ukraine evolving", 2).await;
+    let tree = engine.run("how is the war in ukraine evolving", 3).await;
     let tree = tree.unwrap();
     let _ = engine.pretty_save_to_file("tree.json", &tree.clone());
 
-    //info!("{:#?}", &tree);
+    info!("Explored links: {:#?}", &engine.explored);
 }
 
 use scraper::{Html, Selector};
