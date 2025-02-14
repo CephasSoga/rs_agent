@@ -1551,6 +1551,7 @@ dependencies = [
  "async-openai",
  "dashmap",
  "fastrand",
+ "futures-util",
  "indicatif",
  "num_cpus",
  "rayon",

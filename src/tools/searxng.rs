@@ -1,11 +1,14 @@
 #![allow(unused)]
 
+use std::sync::Arc;
 use std::collections::HashMap;
 
 use reqwest::{Client, Response};
 use scraper::{Html, Selector};
 use serde_json::json;
-use tokio::join;
+use tokio::{spawn, join};
+use tokio::sync::Mutex;
+use futures_util;
 
 use crate::tools::errors::EngineError;
 
@@ -24,7 +27,9 @@ pub trait HtmlParser {
 }
 pub trait RequestHandler {
     type E; // The error
+    type Conc; // The concurrently accessed map of responses 
     async fn request(&self, query: &str, format: Option<&str>) -> Result<Response, EngineError>;
+    async fn request_format_concurrent(&self, query: String, format: &[String]) -> Result<Self::Conc, Self::E>;
     async fn collect_urls(&self, query: &str, format: Option<&str>) -> Result<OptionalURLs, EngineError>;
     async fn search(&self, query: &str, format: Option<&str>, selector: &str) -> Result<LinkMap, EngineError>;
 }
@@ -44,6 +49,13 @@ impl MetaSearchEngine {
                 .timeout(std::time::Duration::from_secs(CLIENT_CONN_TIMEOUT)) // Set a timeout
                 .build()
                 .unwrap(),
+        }
+    }
+
+    fn clone(&self) -> Self {
+        Self {
+            host: self.host.clone(),
+            client: self.client.clone(),
         }
     }
 }
@@ -72,6 +84,7 @@ impl HtmlParser for MetaSearchEngine {
 
 impl RequestHandler for MetaSearchEngine {
     type E = EngineError;
+    type Conc = Arc<Mutex<HashMap<String, Response>>>;
     async fn request(&self, query: &str, format: Option<&str>) -> Result<Response, EngineError> {
         let format = format.unwrap_or("json");
         if !vec!["json", "html", "csv", "rss"].contains(&format) {
@@ -108,6 +121,29 @@ impl RequestHandler for MetaSearchEngine {
             });
         
         response
+    }
+
+    async fn request_format_concurrent(&self, query: String, format: &[String]) -> Result<Self::Conc, Self::E> {
+        let mut responses = Arc::new(Mutex::new(HashMap::new()));
+        let formats: Vec<String> = format.iter().map(|f| f.to_string()).collect();
+        let mut tasks = vec![];
+        for f in formats {
+            let not_shared_self = self.clone();
+            let q = query.clone();
+            let f = f.clone();
+            let responses = responses.clone();
+            let task = spawn(async move {
+                let r = not_shared_self.request(&q, Some(&f)).await;
+                if let Ok(response) = r {
+                    let mut responses = responses.lock().await;
+                    responses.insert(f.clone().to_string(), response);
+                }
+            });
+            tasks.push(task);
+        }
+
+        let _ = futures_util::future::join_all(tasks).await;
+        Ok(responses)
     }
 
     async fn collect_urls(&self, query: &str, format: Option<&str>) -> Result<OptionalURLs, EngineError> {

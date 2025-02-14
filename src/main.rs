@@ -6,7 +6,9 @@ mod tools;
 mod config;
 mod ops;
 mod looging;
+mod utils;
 
+use std::time::Instant;
 use tools::deep_search::ExhautNodes;
 use tracing::info;
 
@@ -14,20 +16,23 @@ use crate::tools::searxng::{HtmlParser, RequestHandler, MetaSearchEngine};
 use crate::tools::deep_search::DeepSearchEngine;
 use crate::looging::setup_logger;
 
+
+
+
 #[tokio::main]
 async fn main() {
     setup_logger("info");
     //let engine = MetaSearchEngine::new("http://localhost:8080/search");
     //let r = engine.search("how is the war in ukraine evolving", Some("json"), "p").await;
 
-    let mut engine = DeepSearchEngine::new("http://localhost:8080/search");
+    time!({let mut engine = DeepSearchEngine::new("http://localhost:8080/search");
     //let mut roots = engine.fetch_roots("how is the war in ukraine evolving").await.unwrap();
     //let _ = engine.pretty_save_to_file("tree.json", &tree.clone());
     let tree = engine.run("how is the war in ukraine evolving", 3).await;
     let tree = tree.unwrap();
     let _ = engine.pretty_save_to_file("tree.json", &tree.clone());
 
-    info!("Explored links: {:#?}", &engine.explored);
+    info!("Explored links: {:#?}", &engine.explored);})
 }
 
 use scraper::{Html, Selector};
