@@ -20,3 +20,4 @@ num_cpus = "1.16"       # For getting number of CPU cores
 fastrand = "2.0"        # Fast random number generator
 dashmap = "6.1.0"
 futures-util = "0.3.31"
+crossbeam = "0.8.4"

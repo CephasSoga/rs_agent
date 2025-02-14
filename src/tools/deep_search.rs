@@ -7,6 +7,7 @@ use std::cmp::Ordering;
 use std::collections::{HashMap, HashSet};
 
 use dashmap::DashSet;
+use crossbeam::atomic::AtomicCell;
 use reqwest::Response;
 use scraper::html;
 use serde_json::Value;
@@ -155,9 +156,9 @@ impl DeepSearchEngine {
     }
     fn clone(&self) -> Self {
         Self {
-            engine: self.engine.clone(),
-            embedding_model: self.embedding_model.clone(),
-            explored: self.explored.clone()
+            engine: Arc::clone(&self.engine),
+            embedding_model: Some(Arc::clone(&self.embedding_model.as_ref().unwrap())),
+            explored: Arc::clone(&self.explored)
         }
     }
     pub fn pretty_save_to_file(&self, filename: &str, tree: &SearchTree) -> Result<(), std::io::Error> {
@@ -410,35 +411,68 @@ impl ExhautNodes for DeepSearchEngine {
     }
 
     async fn explore_node(&self, q_emb: &Option<Vec<f32>>, tree: TreeNode<Node>, depth: u32, result: Arc<Mutex<SearchTree>>, explored: Self::ArcEx) {
-        // Check if the node has already been explored
         if explored.contains(&tree.node.url) {
-            info!("Node is already explored. Skipped. | Url: {}.", &tree.node.url);
-            return; // Skip this node
+            info!("Node already explored. Skipping: {}", tree.node.url);
+            return;
         }
-        // Mark the node as explored
-        //explored.insert(tree.node.url.clone());
+    
+        let mut current_nodes = vec![tree];
         let mut level_counter = 0;
-        let mut current_nodes = vec![tree.clone()];
-
+    
         while level_counter < depth {
-            info!("Exploring node. | Node: {}. | Depth: {}/{}.", &tree.node.url, level_counter+1, &depth);
-
-            let mut next_nodes = vec![];
-
-            for link_node in &mut current_nodes {
-                if link_node.node.explored || explored.contains(&link_node.node.url) {
-                    info!("Link has been explored previously. Skipped. | Url: {}.", &link_node.node.url);
-                    continue;
-                }
-
-                self.fetch_children(q_emb, link_node, depth - level_counter).await;
-                next_nodes.extend(link_node.children.clone());
+            let mut tasks = vec![];
+    
+            // Process each node in the current level concurrently
+            for mut node in current_nodes {
+                let self_clone = self.clone();
+                let q_emb_clone = q_emb.clone();
+                let explored_clone = explored.clone();
+                let depth_remaining = depth - level_counter;
+    
+                tasks.push(tokio::spawn(async move {
+                    // Skip already explored nodes
+                    if node.node.explored || explored_clone.contains(&node.node.url) {
+                        return (node, vec![]);
+                    }
+    
+                    // Fetch children and update the node
+                    match self_clone.fetch_children(&q_emb_clone, &mut node, depth_remaining).await {
+                        Ok(children) => {
+                            // Mark node as explored
+                            explored_clone.insert(node.node.url.clone());
+                            (node, children)
+                        },
+                        Err(_) => (node, vec![]),
+                    }
+                }));
             }
-
-            result.lock().await.levels.push(DepthLevel { level: level_counter, links: current_nodes.clone() });
-
-            level_counter += 1;
+    
+            // Wait for all tasks to complete and collect results
+            let results = futures_util::future::join_all(tasks).await;
+    
+            // Aggregate processed nodes and next level nodes
+            let mut processed_nodes = vec![];
+            let mut next_nodes = vec![];
+    
+            for result in results {
+                match result {
+                    Ok((node, children)) => {
+                        processed_nodes.push(node);
+                        next_nodes.extend(children);
+                    },
+                    Err(e) => error!("Error processing node: {:?}", e),
+                }
+            }
+    
+            // Update the result with the current level's nodes
+            result.lock().await.levels.push(DepthLevel {
+                level: level_counter,
+                links: processed_nodes,
+            });
+    
+            // Move to the next level
             current_nodes = next_nodes;
+            level_counter += 1;
         }
     }
 
