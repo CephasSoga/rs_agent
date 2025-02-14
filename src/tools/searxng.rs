@@ -16,8 +16,8 @@ use crate::tools::errors::EngineError;
 type LinkMap = HashMap<String, String>;
 type OptionalURLs = Vec<Option<String>>;
 
-const CLIENT_CONN_POOL_SIZE: usize = 5;
-const CLIENT_CONN_TIMEOUT: u64 = 10;
+const CLIENT_CONN_POOL_SIZE: usize = 12;
+const CLIENT_CONN_TIMEOUT: u64 = 30;
 
 
 pub trait HtmlParser {

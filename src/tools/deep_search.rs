@@ -3,6 +3,7 @@
 use std::fmt::Debug;
 use std::os::raw;
 use std::sync::Arc;
+use std::time::Instant;
 use std::cmp::Ordering;
 use std::collections::{HashMap, HashSet};
 
@@ -21,6 +22,7 @@ use tracing_subscriber::field::debug;
 use super::searxng::{HtmlParser, RequestHandler, MetaSearchEngine};
 use super::errors::EngineError;
 use crate::ops::embedding::Word2VecFromFile;
+use crate::time;
 use super::debug::HTML;
 
 
@@ -48,28 +50,16 @@ impl Node {
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct HtmlWrap {
-    pub title: Vec<String>,
-    pub h1: Vec<String>,
-    pub h2: Vec<String>,
-    pub h3: Vec<String>,
-    pub h4: Vec<String>,
-    pub h5: Vec<String>,
-    pub h6: Vec<String>,
-    pub text: Vec<String>,
+    pub titles: Vec<String>,
+    pub text: String,
     pub links: Vec<String>,
     pub json: Value,
 }
 impl Default for HtmlWrap {
     fn default() -> Self {
         Self {
-            title: Vec::new(),
-            h1: Vec::new(),
-            h2: Vec::new(),
-            h3: Vec::new(),
-            h4: Vec::new(),
-            h5: Vec::new(),
-            h6: Vec::new(),
-            text: Vec::new(),
+            titles: Vec::new(),
+            text: String::new(),
             links: Vec::new(),
             json: Value::Null,
         }
@@ -176,10 +166,12 @@ impl DeepSearchEngine {
             self.embedding_model = Some(Arc::new(self.initialize(None)));
         }
         info!("Running deep search engine...");
-        let root_nodes = self.fetch_roots(query).await?;
-        let r = self.explore(query, root_nodes, depth).await;
-        info!("Deep search engine finished.");
-        r
+        time!("Engine", {
+            let root_nodes = self.fetch_roots(query).await?;
+            let r = self.explore(query, root_nodes, depth).await;
+            info!("Deep search engine finished.");
+            r
+        })
     }
 }
 
@@ -326,20 +318,14 @@ impl ExhautNodes for DeepSearchEngine {
         if let Some(response) = resp_map.remove("html") {
             let html = response.text().await;
             let selectors = vec![
-                ("h1", &mut html_wrap.h1),
-                ("h2", &mut html_wrap.h2),
-                ("h3", &mut html_wrap.h3),
-                ("h4", &mut html_wrap.h4),
-                ("h5", &mut html_wrap.h5),
-                ("h6", &mut html_wrap.h6),
                 ("a", &mut html_wrap.links),
-                ("p", &mut html_wrap.text),
-                ("title", &mut html_wrap.title),
+                ("h3", &mut html_wrap.titles),
             ];
             if let Ok(html) = html {
                 for (field, target) in selectors {
                     *target = self.engine.extract(&html, field).await;
                 }
+                html_wrap.text = html;
             }
             // filter valid links and keep unique ones.
             html_wrap.links = Self::filter_valid_links(&html_wrap.links)
@@ -412,12 +398,13 @@ impl ExhautNodes for DeepSearchEngine {
 
     async fn explore_node(&self, q_emb: &Option<Vec<f32>>, tree: TreeNode<Node>, depth: u32, result: Arc<Mutex<SearchTree>>, explored: Self::ArcEx) {
         if explored.contains(&tree.node.url) {
-            info!("Node already explored. Skipping: {}", tree.node.url);
+            debug!("Node already explored. Skipping: {}", tree.node.url);
             return;
         }
+        let mut level_counter = 0;
+        info!("Exploring node. | Node: {}. | Depth: {}/{}.", &tree.node.url, level_counter+1, &depth);
     
         let mut current_nodes = vec![tree];
-        let mut level_counter = 0;
     
         while level_counter < depth {
             let mut tasks = vec![];
@@ -432,6 +419,7 @@ impl ExhautNodes for DeepSearchEngine {
                 tasks.push(tokio::spawn(async move {
                     // Skip already explored nodes
                     if node.node.explored || explored_clone.contains(&node.node.url) {
+                        debug!("Link has been explored previously. Skipped. | Url: {}.", &node.node.url);
                         return (node, vec![]);
                     }
     
