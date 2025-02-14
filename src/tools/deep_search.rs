@@ -4,9 +4,10 @@ use std::fmt::Debug;
 use std::os::raw;
 use std::sync::Arc;
 use std::cmp::Ordering;
-use std::collections::HashSet;
+use std::collections::{HashMap, HashSet};
 
 use dashmap::DashSet;
+use reqwest::Response;
 use scraper::html;
 use serde_json::Value;
 use serde::{de, Deserialize, Serialize};
@@ -55,6 +56,7 @@ pub struct HtmlWrap {
     pub h6: Vec<String>,
     pub text: Vec<String>,
     pub links: Vec<String>,
+    pub json: Value,
 }
 impl Default for HtmlWrap {
     fn default() -> Self {
@@ -68,6 +70,7 @@ impl Default for HtmlWrap {
             h6: Vec::new(),
             text: Vec::new(),
             links: Vec::new(),
+            json: Value::Null,
         }
     }
 }
@@ -128,10 +131,10 @@ pub trait ExhautNodes {
     type ArcEx; // Keeps trcak of explored links
     async fn fetch_roots(&self, query: &str) -> Result<Vec<TreeNode<Node>>, Self::E>;
     async fn fetch_children(&self, q_embed: &Self::R, parent: &mut TreeNode<Node>, depth: u32) -> Result<Vec<TreeNode<Node>>, Self::E>;
-    async fn wrap_response(&self, q_emb: &Self::R, html: &str) -> HtmlWrap;
+    async fn wrap_response(&self, q_emb: &Self::R, resp_map: HashMap<String, Response>) -> (HtmlWrap, f64);
     async fn explore(&mut self, query: &str, nodes: Vec<TreeNode<Node>>, depth: u32) -> Result<SearchTree, EngineError>;
     async fn explore_node(&self, q_emb: &Option<Vec<f32>>, tree: TreeNode<Node>, depth: u32, result: Arc<Mutex<SearchTree>>, explored: Self::ArcEx);
-    async fn score_link(&self, q_emb: &Self::R, link: &str) -> Result<f64, Self::E>;
+    async fn score_link(&self, q_emb: &Self::R, content: &Value, link: &str) -> Result<f64, Self::E>;
 }
 
 
@@ -276,34 +279,31 @@ impl ExhautNodes for DeepSearchEngine {
 
         debug!("Fetching children for node. | Url: {:?}", parent.node.url);
 
-        match self.engine.request(&parent.node.url, Some("html")).await {
-            Ok(response) => {
+        match self.engine.request_concurrent(parent.node.url.clone(), &["html".to_string(), "json".to_string()]).await {
+            Ok(response_map) => {
                 debug!("Fetched HTML for URL: <{}>.", &parent.node.url);
                 
-                if let Ok(text) = response.text().await {
-                    
-                    let html_wrap = self.wrap_response(q_emb,&text).await;
-                    debug!("Wrapped HTML for URL: <{:#?}>.", &html_wrap);
-                    
-                    parent.node.extracted = Some(html_wrap.clone());
-                    parent.node.explored = true;
-                    let score = self.score_link(q_emb, &parent.node.url).await?;
-                    parent.node.update(score);
-                    self.explored.insert(parent.node.url.clone());
+                let (html_wrap, score) = self.wrap_response(q_emb,response_map).await;
+                debug!("Wrapped HTML for URL: <{:#?}>.", &html_wrap);
+                
+                parent.node.extracted = Some(html_wrap.clone());
+                parent.node.explored = true;
+                parent.node.update(score);
+                self.explored.insert(parent.node.url.clone());
 
-                    let child_nodes: Vec<TreeNode<Node>> = html_wrap.links.iter().map(|url| {
-                        TreeNode::new(Node {
-                            depth_index: parent.node.depth_index + 1,
-                            url: url.clone(),
-                            relevance: 1.0,
-                            explored: false,
-                            extracted: None,
-                        })
-                    }).collect();
+                let child_nodes: Vec<TreeNode<Node>> = html_wrap.links.iter().map(|url| {
+                    TreeNode::new(Node {
+                        depth_index: parent.node.depth_index + 1,
+                        url: url.clone(),
+                        relevance: 1.0,
+                        explored: false,
+                        extracted: None,
+                    })
+                }).collect();
 
-                    parent.children.extend(child_nodes.clone()); // Add children to parent
-                    return Ok(child_nodes);
-                }
+                parent.children.extend(child_nodes.clone()); // Add children to parent
+                return Ok(child_nodes);
+                
             }
             Err(err) => {
                 error!("Failed to fetch children for URL: <{}>.", &parent.node.url);
@@ -314,45 +314,60 @@ impl ExhautNodes for DeepSearchEngine {
         Ok(Vec::new())
     }
     
-    async fn wrap_response(&self, q_emb: &Option<Vec<f32>>, html: &str) -> HtmlWrap {
-        debug!("Wrapping HTML: <{}>.", html);
+    async fn wrap_response(&self, q_emb: &Option<Vec<f32>>, mut resp_map: HashMap<String, Response>) -> (HtmlWrap, f64) {
+        debug!("Wrapping Response hashmap: <{:?}>.", resp_map.keys());
         let mut html_wrap = HtmlWrap::default();
-        let selectors = vec![
-            ("h1", &mut html_wrap.h1),
-            ("h2", &mut html_wrap.h2),
-            ("h3", &mut html_wrap.h3),
-            ("h4", &mut html_wrap.h4),
-            ("h5", &mut html_wrap.h5),
-            ("h6", &mut html_wrap.h6),
-            ("a", &mut html_wrap.links),
-            ("p", &mut html_wrap.text),
-            ("title", &mut html_wrap.title),
-        ];
-        for (field, target) in selectors {
-            *target = self.engine.extract(html, field).await;
-        }
 
-        // filter valid links and keep unique ones.
-        html_wrap.links = Self::filter_valid_links(&html_wrap.links)
-            .iter()
-            .cloned()
-            .collect::<HashSet<String>>()
-            .into_iter()
-            .collect::<Vec<String>>();
+        // Scoore the link
+        let mut scores = Vec::new();
+        let mut avg_score = 0_f64;
 
-        // Collect scores first
-        let mut scored_links = Vec::new();
-        for link in html_wrap.links.iter() {
-            if let Ok(score) = self.score_link(q_emb, link).await {
-                scored_links.push((score, link.clone()));
+        if let Some(response) = resp_map.remove("html") {
+            let html = response.text().await;
+            let selectors = vec![
+                ("h1", &mut html_wrap.h1),
+                ("h2", &mut html_wrap.h2),
+                ("h3", &mut html_wrap.h3),
+                ("h4", &mut html_wrap.h4),
+                ("h5", &mut html_wrap.h5),
+                ("h6", &mut html_wrap.h6),
+                ("a", &mut html_wrap.links),
+                ("p", &mut html_wrap.text),
+                ("title", &mut html_wrap.title),
+            ];
+            if let Ok(html) = html {
+                for (field, target) in selectors {
+                    *target = self.engine.extract(&html, field).await;
+                }
             }
+            // filter valid links and keep unique ones.
+            html_wrap.links = Self::filter_valid_links(&html_wrap.links)
+                .iter()
+                .cloned()
+                .collect::<HashSet<String>>()
+                .into_iter()
+                .collect::<Vec<String>>();
         }
-        // Sort by score
-        scored_links.sort_by(|a, b| b.0.partial_cmp(&a.0).unwrap_or(Ordering::Equal));
-        // Replace links with sorted ones
-        html_wrap.links = scored_links.into_iter().map(|(_, link)| link).take(5).collect();
-        
-        html_wrap
+
+        if let Some(response) = resp_map.remove("json") {
+            let json = response.json::<Value>().await;
+            if let Ok(json) = json {
+                // Collect scores first
+                let mut scored_links = Vec::new();
+                for link in html_wrap.links.iter() {
+                    if let Ok(score) = self.score_link(q_emb, &json, link).await {
+                        scored_links.push((score.clone(), link.clone()));
+                        scores.push(score)
+                    }
+                }
+                // Sort by score
+                scored_links.sort_by(|a, b| b.0.partial_cmp(&a.0).unwrap_or(Ordering::Equal));
+                // Replace links with sorted ones
+                html_wrap.links = scored_links.into_iter().map(|(_, link)| link).take(5).collect();
+                avg_score = scores.iter().sum::<f64>() / scores.len() as f64; 
+            }
+        } 
+        (html_wrap, avg_score)
     }
 
     async fn explore(&mut self, query: &str,  nodes: Vec<TreeNode<Node>>, depth: u32) -> Result<SearchTree, EngineError> {
@@ -406,7 +421,7 @@ impl ExhautNodes for DeepSearchEngine {
         let mut current_nodes = vec![tree.clone()];
 
         while level_counter < depth {
-            info!("Exploring node. | Node:{}. | Depth: {}/{}.", &tree.node.url, level_counter+1, &depth);
+            info!("Exploring node. | Node: {}. | Depth: {}/{}.", &tree.node.url, level_counter+1, &depth);
 
             let mut next_nodes = vec![];
 
@@ -427,13 +442,7 @@ impl ExhautNodes for DeepSearchEngine {
         }
     }
 
-    async fn score_link(&self, q_emb: &Option<Vec<f32>>, link: &str) -> Result<f64, Self::E> {
-        // Extract `content` from response json and use it to dismiss irrelavant links
-        let json = self.engine.request(link, Some("json")).await?
-            .json::<Value>()
-            .await
-            .unwrap();
-
+    async fn score_link(&self, q_emb: &Option<Vec<f32>>, json: &Value, link: &str) -> Result<f64, Self::E> {
         let content = json.get("results").and_then(|v| 
             v.as_array().and_then(|arr| arr.get(0).and_then(|c| c.get("content").and_then(|c| c.as_str()))).map(String::from)
         ).unwrap_or(String::from(""));
@@ -441,6 +450,11 @@ impl ExhautNodes for DeepSearchEngine {
         //let len = query.split_whitespace().count();
         let c_emb = self.embed(&content, EMBEDDING_PAD_LEN);
 
+        //let score = tokio::task::spawn_blocking(move || {
+        //    let q_emb = q_emb.clone();
+        //    let c_emb = c_emb.clone();
+        //    Self::cosine_similarity(q_emb, &c_emb)
+        //}).await.unwrap();
         let score = Self::cosine_similarity(q_emb, &c_emb);
         Ok(score)
     }

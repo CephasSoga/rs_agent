@@ -7,8 +7,9 @@ use reqwest::{Client, Response};
 use scraper::{Html, Selector};
 use serde_json::json;
 use tokio::{spawn, join};
-use tokio::sync::Mutex;
+use tokio::sync::{Mutex, mpsc};
 use futures_util;
+use tracing::{debug, info};
 
 use crate::tools::errors::EngineError;
 
@@ -29,7 +30,7 @@ pub trait RequestHandler {
     type E; // The error
     type Conc; // The concurrently accessed map of responses 
     async fn request(&self, query: &str, format: Option<&str>) -> Result<Response, EngineError>;
-    async fn request_format_concurrent(&self, query: String, format: &[String]) -> Result<Self::Conc, Self::E>;
+    async fn request_concurrent(&self, query: String, format: &[String]) -> Result<Self::Conc, Self::E>;
     async fn collect_urls(&self, query: &str, format: Option<&str>) -> Result<OptionalURLs, EngineError>;
     async fn search(&self, query: &str, format: Option<&str>, selector: &str) -> Result<LinkMap, EngineError>;
 }
@@ -84,8 +85,9 @@ impl HtmlParser for MetaSearchEngine {
 
 impl RequestHandler for MetaSearchEngine {
     type E = EngineError;
-    type Conc = Arc<Mutex<HashMap<String, Response>>>;
+    type Conc = HashMap<String, Response>;
     async fn request(&self, query: &str, format: Option<&str>) -> Result<Response, EngineError> {
+        debug!("Started request: <non-concurrent>. | Query: {}.", &query);
         let format = format.unwrap_or("json");
         if !vec!["json", "html", "csv", "rss"].contains(&format) {
             return Err(EngineError::FormatError(format!("Your request failed because of an invalid output format: `{} `.
@@ -123,26 +125,48 @@ impl RequestHandler for MetaSearchEngine {
         response
     }
 
-    async fn request_format_concurrent(&self, query: String, format: &[String]) -> Result<Self::Conc, Self::E> {
-        let mut responses = Arc::new(Mutex::new(HashMap::new()));
+    async fn request_concurrent(&self, query: String, format: &[String]) -> Result<Self::Conc, Self::E> {
+        debug!("Started concurrent requests. | Query: {}.", &query);
+        let (tx, mut rx) = mpsc::channel(format.len()+1);
+        let mut responses = HashMap::new();
+
         let formats: Vec<String> = format.iter().map(|f| f.to_string()).collect();
         let mut tasks = vec![];
+        let semaphore = Arc::new(tokio::sync::Semaphore::new(format.len()));
+
         for f in formats {
             let not_shared_self = self.clone();
             let q = query.clone();
             let f = f.clone();
-            let responses = responses.clone();
+            let tx_clone = tx.clone();
+            let permit = semaphore.clone().acquire_owned().await.unwrap();
             let task = spawn(async move {
+                debug!("Sending request for format: {}...", f);
                 let r = not_shared_self.request(&q, Some(&f)).await;
+                debug!("Received response for format: {}", f);
                 if let Ok(response) = r {
-                    let mut responses = responses.lock().await;
-                    responses.insert(f.clone().to_string(), response);
+                    let _ = tx_clone.send((f.clone(), response)).await;
+                    debug!("Finished for format: {}", &f);
                 }
+                drop(permit);
             });
             tasks.push(task);
         }
 
-        let _ = futures_util::future::join_all(tasks).await;
+        let r = futures_util::future::join_all(tasks).await;
+        drop(tx);
+        
+        let mut count = 0; 
+        while let Some((key, response)) = rx.recv().await {
+            if count == format.len() {
+                debug!("Finished concurrent requests. Breaking...");
+                break;
+            }
+            responses.insert(key.clone(), response);
+            count += 1;
+            debug!("Inserted into response map with key: {}", &key);
+        }
+        debug!("Map: {:#?}", &responses);
         Ok(responses)
     }
 
